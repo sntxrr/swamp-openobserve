@@ -1,0 +1,24 @@
+manifestVersion: 1
+
+name: "@sntxrr/openobserve"
+version: "2026.08.29.1"
+description: "Operate a self-hosted OpenObserve instance from swamp, and decide safely whether a newer upstream release should be rolled out to it. OpenObserve publishes release candidates into the same tag namespace as stable releases -- on 2026-08-29 the newest tag was v1.0.0-rc1, published eleven days AFTER the newest stable v0.92.2 -- so anything that reads the tag list and sorts it pins an RC. That is worse here than for a stateless app: OpenObserve is a log store, and an RC that migrates the on-disk schema is not undone by re-pinning the previous tag, because the previous binary can no longer read what the new one wrote. The `check_update` method reads GitHub *releases* rather than tags, excludes drafts and prereleases (by the GitHub flag OR a semver prerelease suffix, since the flag is hand-set and occasionally wrong), applies real semver precedence so a prerelease sorts before its own release, and reports the newer prereleases it skipped so a pending major stays visible without being auto-applied. It then confirms the candidate tag actually resolves in the registry before offering the update -- a GitHub release and a pushed image are separate events, and proposing a bump whose image does not exist yet fails the deploy at `compose pull`, after the running container has already been stopped. The `health` method probes /healthz, treating a refused connection as a health result rather than a model error so a down instance is distinguishable from a broken check."
+repository: "https://github.com/sntxrr/swamp-openobserve"
+
+paths:
+  base: manifest
+
+models:
+  - openobserve.ts
+
+additionalFiles:
+  - README.md
+  - LICENSE.md
+
+labels:
+  - openobserve
+  - observability
+  - logs
+  - monitoring
+  - self-hosted
+  - updates
