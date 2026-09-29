@@ -145,7 +145,7 @@ Deno.test("selection does not depend on the order the API returned", () => {
 import {
   createModelTestContext,
   withMockedFetch,
-} from "jsr:@swamp-club/swamp-testing";
+} from "jsr:@swamp-club/swamp-testing@0.20260928.39";
 import { assertRejects, assertStringIncludes } from "jsr:@std/assert@1";
 import { model } from "./openobserve.ts";
 
